@@ -12,7 +12,7 @@ class CourseViewSet(ModelViewSet):
 
 class LessonCreateApiView(CreateAPIView):
     queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
+    # serializer_class = LessonSerializer
 
 
 class LessonListApiView(ListAPIView):
@@ -31,5 +31,5 @@ class LessonUpdateApiView(UpdateAPIView):
 
 
 class LessonDestroyApiView(DestroyAPIView):
-    queryset = Lesson.objects.all()
+    # queryset = Lesson.objects.all()
     serializer_class = LessonSerializer

@@ -14,15 +14,23 @@ class LessonSerializer(ModelSerializer):
 
 class CourseSerializer(ModelSerializer):
 
+    lessons = SerializerMethodField()
     lessons_count = serializers.SerializerMethodField()
 
     def get_lessons_count(self, obj):
         return Lesson.objects.filter(course=obj).count()
 
+    def get_lessons(self, course):
+
+        return [
+            f"{lesson.title} - {lesson.description}"
+            for lesson in course.lesson_set.all()
+        ]
+
     class Meta:
         model = Course
         # fields = '__all__'
-        fields = ["id", "title", "description", "preview", "lessons_count"]
+        fields = ["id", "title", "description", "preview", "lessons","lessons_count"]
 
 
 class CourseCountSerializer(ModelSerializer):

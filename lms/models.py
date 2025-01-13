@@ -1,5 +1,6 @@
 from django.db import models
-from rest_framework import serializers
+
+from django.conf import settings
 
 
 class Course(models.Model):
@@ -23,6 +24,14 @@ class Course(models.Model):
         help_text="Введите описание курса",
         blank=True,
         null=True,
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Владелец курса",
+        help_text="Введите владельца курса",
     )
 
     class Meta:
@@ -60,6 +69,14 @@ class Lesson(models.Model):
         blank=True,
         null=True,
         help_text="Введите URL видео",
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Владелец урока",
+        help_text="Введите владельца урока",
     )
 
     class Meta:

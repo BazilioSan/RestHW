@@ -9,7 +9,7 @@ class LessonSerializer(ModelSerializer):
     class Meta:
         model = Lesson
         # fields = '__all__'
-        fields = ["id", "title", "description", "preview", "video"]
+        fields = ["id", "title", "description", "preview", "video", "owner"]
 
 
 class CourseSerializer(ModelSerializer):
@@ -22,7 +22,7 @@ class CourseSerializer(ModelSerializer):
     class Meta:
         model = Course
         # fields = '__all__'
-        fields = ["id", "title", "description", "preview"]
+        fields = ["id", "title", "description", "preview", "owner"]
 
 
 class CourseCountSerializer(ModelSerializer):

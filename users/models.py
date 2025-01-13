@@ -74,7 +74,6 @@ class Payment(models.Model):
     amount = models.DecimalField(
         max_digits=10, decimal_places=2, verbose_name="Сумма оплаты"
     )
-
     CASH = "Наличные"
     CARD = "Карта"
     PAYMENT_CHOICE = [(CASH, "Наличные"), (CARD, "Безналичная")]

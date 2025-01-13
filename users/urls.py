@@ -16,8 +16,16 @@ from django.urls import path
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path("login/", TokenObtainPairView.as_view(permission_classes = (AllowAny,)), name="login"),
-    path("token/refresh/", TokenRefreshView.as_view(permission_classes = (AllowAny,)), name="token_refresh"),
+    path(
+        "login/",
+        TokenObtainPairView.as_view(permission_classes=(AllowAny,)),
+        name="login",
+    ),
+    path(
+        "token/refresh/",
+        TokenRefreshView.as_view(permission_classes=(AllowAny,)),
+        name="token_refresh",
+    ),
     path("<int:pk>/update/", UserUpdateApiView.as_view(), name="user_update"),
     path("retrieve/<int:pk>/", UserRetrieveApiView.as_view(), name="user_retrieve"),
     path("payment/", PaymentListApiView.as_view(), name="payment"),

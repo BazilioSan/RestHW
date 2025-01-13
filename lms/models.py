@@ -38,6 +38,9 @@ class Course(models.Model):
         verbose_name = "Курс"
         verbose_name_plural = "Курсы"
 
+    def __str__(self):
+        return self.title
+
 
 class Lesson(models.Model):
     """Модель урока"""
@@ -48,7 +51,12 @@ class Lesson(models.Model):
         help_text="Введите название урока",
     )
     course = models.ForeignKey(
-        Course, on_delete=models.CASCADE, verbose_name="Курс", help_text="Выберите курс"
+        Course,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Курс",
+        help_text="Выберите курс",
     )
     description = models.CharField(
         max_length=255,
@@ -82,3 +90,6 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
+
+    def __str__(self):
+        return self.title

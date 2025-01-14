@@ -1,6 +1,9 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from lms.models import Lesson, Course
+from .validators import Only_Youtube
+
+from lms.models import Lesson, Course, Subscription
+
 
 class LessonSerializer(ModelSerializer):
 
@@ -11,6 +14,8 @@ class LessonSerializer(ModelSerializer):
         model = Lesson
         # fields = '__all__'
         fields = ["id", "title", "course", "description", "preview", "video", "owner"]
+        validators = (Only_Youtube(field="video"),)
+
 
 class CourseSerializer(ModelSerializer):
 
@@ -28,6 +33,11 @@ class CourseSerializer(ModelSerializer):
     def get_lessons_count(self, obj):
         return Lesson.objects.filter(course=obj).count()
 
+    def get_subscription(self, course):
+
+        user = self.context.get("request").user
+        return Subscription.objects.filter(user=user, course=course).exists()
+
     class Meta:
         model = Course
         # fields = '__all__'
@@ -39,7 +49,9 @@ class CourseSerializer(ModelSerializer):
             "owner",
             "lessons",
             "lessons_count",
+            "subscription",
         ]
+
 
 class CourseCountSerializer(ModelSerializer):
     course_count = CourseSerializer(many=True)
@@ -47,3 +59,10 @@ class CourseCountSerializer(ModelSerializer):
     class Meta:
         model = Course
         fields = ["id", "title", "description", "course_count"]
+
+
+class SubscriptionSerializer(ModelSerializer):
+
+    class Meta:
+        model = Subscription
+        fields = ("user", "course")

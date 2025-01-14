@@ -29,6 +29,7 @@ class Command(BaseCommand):
             psw2 = getpass.getpass("Confirm password: ")
 
         user = User.objects.create(
+            username=username,
             email=email,
             first_name="Admin",
             last_name="MyMailings",

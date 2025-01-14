@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-2zbx^rks7v$h!gmntg77u$_!&1(rjf_xg7=lfbyk9&gu#otj!v"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.getenv("DEBUG") == "True" else False
@@ -96,11 +96,11 @@ SIMPLE_JWT = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("NAME"),
-        "USER": os.getenv("USER"),
-        "PASSWORD": os.getenv("PASSWORD"),
-        "HOST": os.getenv("HOST"),
-        "PORT": os.getenv("PORT"),
+        "DATABASE_NAME": os.getenv("NAME"),
+        "DATABASE_USER": os.getenv("USER"),
+        "DATABASE_PASSWORD": os.getenv("PASSWORD"),
+        "DATABASE_HOST": os.getenv("HOST"),
+        "DATABASE_PORT": os.getenv("PORT"),
     }
 }
 

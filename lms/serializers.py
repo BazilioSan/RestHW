@@ -2,10 +2,20 @@ from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from lms.models import Lesson, Course
 
+class LessonSerializer(ModelSerializer):
+
+    # course = CourseSerializer(read_only=True)
+    course = SerializerMethodField()
+
+    class Meta:
+        model = Lesson
+        # fields = '__all__'
+        fields = ["id", "title", "course", "description", "preview", "video", "owner"]
 
 class CourseSerializer(ModelSerializer):
 
-    lessons = SerializerMethodField()
+    # lessons = SerializerMethodField()
+    lessons = LessonSerializer(many=True)
 
     lessons_count = SerializerMethodField()
 
@@ -30,17 +40,6 @@ class CourseSerializer(ModelSerializer):
             "lessons",
             "lessons_count",
         ]
-
-
-class LessonSerializer(ModelSerializer):
-
-    course = CourseSerializer(read_only=True)
-
-    class Meta:
-        model = Lesson
-        # fields = '__all__'
-        fields = ["id", "title", "course", "description", "preview", "video", "owner"]
-
 
 class CourseCountSerializer(ModelSerializer):
     course_count = CourseSerializer(many=True)

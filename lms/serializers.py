@@ -24,6 +24,8 @@ class CourseSerializer(ModelSerializer):
 
     lessons_count = SerializerMethodField()
 
+    subscription = SerializerMethodField()
+
     def get_lessons(self, course):
         return [
             f"{lesson.title} - {lesson.description}"
@@ -34,7 +36,6 @@ class CourseSerializer(ModelSerializer):
         return Lesson.objects.filter(course=obj).count()
 
     def get_subscription(self, course):
-
         user = self.context.get("request").user
         return Subscription.objects.filter(user=user, course=course).exists()
 

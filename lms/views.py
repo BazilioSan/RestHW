@@ -18,15 +18,23 @@ from .pagination import PageSize
 
 
 class CourseViewSet(ModelViewSet):
-
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     pagination_class = PageSize
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-        # course.owner = self.request.user
-        # course.save()
+        course = serializer.save()
+        course.owner = self.request.user
+        course.save()
+
+    def get_permissions(self):
+        if self.action == "create":
+            self.permission_classes = (~IsModerator,)
+        elif self.action in ("update", "retrieve"):
+            self.permission_classes = (IsModerator | IsOwner,)
+        elif self.action == "destroy":
+            self.permission_classes = (IsOwner,)
+        return super().get_permissions()
 
 
 class LessonCreateApiView(CreateAPIView):
@@ -41,14 +49,15 @@ class LessonCreateApiView(CreateAPIView):
     def get_permissions(self):
 
         self.permission_classes = (IsAuthenticated, ~IsModerator | IsOwner)
-
-        if self.action == "create":
-            self.permission_classes = (~IsModerator,)
-        elif self.action in ("update", "retrieve"):
-            self.permission_classes = (IsModerator | IsOwner,)
-        elif self.action == "destroy":
-            self.permission_classes = (IsOwner,)
         return super().get_permissions()
+
+        # if self.action == "create":
+        #     self.permission_classes = (~IsModerator,)
+        # elif self.action in ("update", "retrieve"):
+        #     self.permission_classes = (IsModerator | IsOwner,)
+        # elif self.action == "destroy":
+        #     self.permission_classes = (IsOwner,)
+        # return super().get_permissions()
 
 
 class LessonListApiView(ListAPIView):
@@ -94,6 +103,7 @@ class SubscriptionApiView(APIView):
         course_id = self.request.data.get("pk")
         course_item = get_object_or_404(Course, pk=course_id)
         sub_item, created = Subscription.objects.get_or_create(user=user, course=course_item)
+
         if created:
             message = "Подписка была создана."
         else:

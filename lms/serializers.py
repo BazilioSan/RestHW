@@ -8,7 +8,7 @@ from lms.models import Lesson, Course, Subscription
 class LessonSerializer(ModelSerializer):
 
     # course = CourseSerializer(read_only=True)
-    course = SerializerMethodField()
+    # course = SerializerMethodField()
 
     class Meta:
         model = Lesson
@@ -20,17 +20,17 @@ class LessonSerializer(ModelSerializer):
 class CourseSerializer(ModelSerializer):
 
     # lessons = SerializerMethodField()
-    lessons = LessonSerializer(many=True)
+    lessons = LessonSerializer(many=True, read_only=True)
 
     lessons_count = SerializerMethodField()
 
     subscription = SerializerMethodField()
 
-    def get_lessons(self, course):
-        return [
-            f"{lesson.title} - {lesson.description}"
-            for lesson in course.lesson_set.all()
-        ]
+    # def get_lessons(self, course):
+    #     return [
+    #         f"{lesson.title} - {lesson.description}"
+    #         for lesson in course.lesson_set.all()
+    #     ]
 
     def get_lessons_count(self, obj):
         return Lesson.objects.filter(course=obj).count()

@@ -29,17 +29,8 @@ class LessonTestCase(APITestCase):
                 {
                     "id": self.lesson.id,
                     "title": self.lesson.title,
-                    "course": {
-                        "id": self.course.id,
-                        "title": self.course.title,
-                        "preview": None,
-                        "description": None,
-                        "lessons_total": 1,
-                        "lessons": [f"{self.lesson.title} - None"],
-                        "owner": self.user.id,
-                        "subscription": False,
-                    },
-                    "description": None,
+                    "course": self.course.id,
+                    "description": "",
                     "preview": None,
                     "video": None,
                     "owner": self.user.id,
@@ -58,7 +49,7 @@ class LessonTestCase(APITestCase):
 
     def test_lesson_create(self):
         """Тест создания уроков."""
-        data = {"title": "New_test", "description": None, "course": 1}
+        data = {"title": "New_test", "description": "test", "course": 1}
         url = reverse("lms:lesson_create")
         response = self.client.post(url, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

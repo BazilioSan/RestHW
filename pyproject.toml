@@ -33,6 +33,8 @@ validators = "^0.34.0"
 drf-yasg = "^1.21.8"
 django-cors-headers = "^4.6.0"
 stripe = "^11.4.1"
+celery = "^5.4.0"
+eventlet = "^0.38.2"
 
 
 [build-system]

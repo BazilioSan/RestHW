@@ -60,10 +60,17 @@ class Payment(models.Model):
     """Payment model"""
 
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name="Пользователь"
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь",
+        null=True,
+        blank=True,
     )
     payment_date = models.DateTimeField(
-        verbose_name="Дата оплаты", help_text="Дата оплаты"
+        verbose_name="Дата оплаты",
+        help_text="Дата оплаты",
+        null=True,
+        blank=True,
     )
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, verbose_name="Оплаченный Курс"
@@ -72,7 +79,17 @@ class Payment(models.Model):
         Lesson, on_delete=models.CASCADE, verbose_name="Оплаченный Урок"
     )
     amount = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name="Сумма оплаты"
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Сумма оплаты",
+        null=True,
+        blank=True,
+    )
+    session_id = models.CharField(
+        max_length=255, verbose_name="ID сессии", blank=True, null=True
+    )
+    link_to_pay = models.URLField(
+        max_length=400, verbose_name="Ссылка на оплату", blank=True, null=True
     )
 
     CASH = "Наличные"

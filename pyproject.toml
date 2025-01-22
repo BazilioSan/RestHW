@@ -32,6 +32,7 @@ coverage = "^7.6.10"
 validators = "^0.34.0"
 drf-yasg = "^1.21.8"
 django-cors-headers = "^4.6.0"
+stripe = "^11.4.1"
 
 
 [build-system]

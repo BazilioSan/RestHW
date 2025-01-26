@@ -6,6 +6,8 @@ from lms.views import (
     LessonCreateApiView,
     LessonUpdateApiView,
     LessonDestroyApiView,
+    SubscriptionApiView,
+    SubscriptionListApiView,
 )
 from django.urls import path
 from lms.apps import LmsConfig
@@ -25,6 +27,7 @@ urlpatterns = [
     path(
         "lesson/<int:pk>/delete/", LessonDestroyApiView.as_view(), name="lesson_delete"
     ),
+    path("subscription/", SubscriptionApiView.as_view(), name="subscription"),
 ]
 
 urlpatterns += router.urls

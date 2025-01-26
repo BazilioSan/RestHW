@@ -1,5 +1,6 @@
 from django.db import models
-from rest_framework import serializers
+
+from django.conf import settings
 
 
 class Course(models.Model):
@@ -24,6 +25,14 @@ class Course(models.Model):
         blank=True,
         null=True,
     )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Владелец курса",
+        help_text="Введите владельца курса",
+    )
 
     class Meta:
         verbose_name = "Курс"
@@ -42,7 +51,12 @@ class Lesson(models.Model):
         help_text="Введите название урока",
     )
     course = models.ForeignKey(
-        Course, on_delete=models.CASCADE, verbose_name="Курс", help_text="Выберите курс"
+        Course,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Курс",
+        help_text="Выберите курс",
     )
     description = models.CharField(
         max_length=255,
@@ -62,9 +76,36 @@ class Lesson(models.Model):
         verbose_name="Видео",
         blank=True,
         null=True,
-        help_text="Введите URL видео",
+        help_text="Введите URL видео (youtube only)",
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Владелец урока",
+        help_text="Введите владельца урока",
     )
 
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
+
+    def __str__(self):
+        return self.title
+
+
+class Subscription(models.Model):
+    """Модель подписки"""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь"
+    )
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс")
+
+    class Meta:
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
+
+    def __str__(self):
+        return f"{self.user} - {self.course}"

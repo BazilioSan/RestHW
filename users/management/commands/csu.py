@@ -1,6 +1,4 @@
 from django.core.management import BaseCommand
-
-#
 from users.models import User
 
 #
@@ -19,6 +17,7 @@ import getpass
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        username = input("Enter superuser username: ")
         email = input("Enter superuser email: ")
 
         psw1 = getpass.getpass("Enter password: ")
@@ -30,6 +29,7 @@ class Command(BaseCommand):
             psw2 = getpass.getpass("Confirm password: ")
 
         user = User.objects.create(
+            username=username,
             email=email,
             first_name="Admin",
             last_name="MyMailings",

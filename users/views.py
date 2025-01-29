@@ -100,9 +100,7 @@ class PaymentCreateApiView(CreateAPIView):
 
         unit_price = create_stripe_price(product, price)  # stripe создает цену
 
-        session_id, payment_link = create_stripe_session(
-            unit_price
-        )
+        session_id, payment_link = create_stripe_session(unit_price)
         # stripe создаёт сессию и ссылку на оплату
 
         amount = unit_price["unit_amount"] / 100  # получаем цену в долларах

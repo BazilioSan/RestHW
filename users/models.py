@@ -91,7 +91,6 @@ class Payment(models.Model):
     link_to_pay = models.URLField(
         max_length=400, verbose_name="Ссылка на оплату", blank=True, null=True
     )
-
     CASH = "Наличные"
     CARD = "Карта"
     PAYMENT_CHOICE = [(CASH, "Наличные"), (CARD, "Безналичная")]

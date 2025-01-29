@@ -23,6 +23,7 @@ class UserSerializer(ModelSerializer):
             "phone_number",
             "avatar",
             "city",
+            "payment",
         )
 
 
@@ -36,4 +37,6 @@ class PaymentSerializer(ModelSerializer):
             "lesson",
             "amount",
             "payment_method",
+            "session_id",
+            "link_to_pay",
         )

@@ -11,7 +11,7 @@ def notification(course_object_id, course_object_title):
     subject = f"Обновление курса {course_object_title}"
     message = f"Здравствуйте!\nКурс {course_object_title} был обновлён. Ознакомьтесь с обновлением.\nС Уважением, администрация сервиса!"
     courses = Subscription.objects.filter(course=course_object_id)
-    recipient_emails = [course.user.email for course in courses]
+    recipient_emails  = list(courses.select_related('user').values_list('user__email', flat=True))
 
     send_mail(
         subject=subject,
